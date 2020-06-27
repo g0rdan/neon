@@ -9,8 +9,10 @@ class NeonChar extends StatefulWidget {
   final NeonFonts font;
   final double fontSize;
   final EnegryLevel energyLevel;
+  final double blurRadius;
 
   NeonChar(this.letter, this.color, this.font, this.fontSize, this.energyLevel,
+      this.blurRadius,
       {Key key})
       : super(key: key);
 
@@ -24,6 +26,7 @@ class _NeonCharState extends State<NeonChar> {
   double get fontSize => widget.fontSize;
   EnegryLevel get enegryLevel => widget.energyLevel;
   MaterialColor get color => widget.color;
+  double get blurRadius => widget.blurRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +71,13 @@ class _NeonCharState extends State<NeonChar> {
   List<Shadow> _getShadows(EnegryLevel enegryLevel) {
     if (enegryLevel == EnegryLevel.Low) {
       return [
-        Shadow(color: color[400], blurRadius: 5),
+        Shadow(color: color[400], blurRadius: blurRadius / 6),
       ];
     } else {
       return [
-        Shadow(color: color[200], blurRadius: 10),
-        Shadow(color: color[300], blurRadius: 30),
-        Shadow(color: color[400], blurRadius: 60),
+        Shadow(color: color[200], blurRadius: blurRadius / 3),
+        Shadow(color: color[300], blurRadius: blurRadius),
+        Shadow(color: color[400], blurRadius: blurRadius * 2),
       ];
     }
   }

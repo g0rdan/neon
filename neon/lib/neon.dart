@@ -15,6 +15,7 @@ class Neon extends StatefulWidget {
   final NeonFonts font;
   final bool flickeringAllText;
   final List<int> flickeringLetters;
+  final double blurRadius;
 
   Neon(
       {@required this.text,
@@ -23,6 +24,7 @@ class Neon extends StatefulWidget {
       @required this.font,
       @required this.flickeringAllText,
       @required this.flickeringLetters,
+      this.blurRadius = 30,
       Key key})
       : super(key: key);
 
@@ -39,6 +41,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   NeonFonts get font => widget.font;
   bool get flickeringAllText => widget.flickeringAllText;
   List<int> get flickeringLetters => widget.flickeringLetters;
+  double get blurRadius => widget.blurRadius;
 
   @override
   void initState() {
@@ -67,7 +70,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
     List<NeonChar> list = [];
     for (var i = 0; i < text.length; i++) {
-      list.add(NeonChar(text[i], color, font, fontSize, _enegryLevels[i]));
+      list.add(NeonChar(
+          text[i], color, font, fontSize, _enegryLevels[i], blurRadius));
     }
     return list;
   }

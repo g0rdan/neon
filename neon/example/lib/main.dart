@@ -93,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
               font: NeonFonts.Membra,
               flickeringAllText: false,
               flickeringLetters: [0, 3, 4],
+              blurRadius: 50,
             )
           ],
         ),
