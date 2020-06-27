@@ -46,6 +46,9 @@ flutter:
     - family: Samarin
       fonts:
         - asset: lib/fonts/Samarin.ttf
+    - family: Cyberpunk
+      fonts:
+        - asset: lib/fonts/Cyberpunk.ttf
 
   # To add assets to your package, add an assets section, like this:
   # assets:

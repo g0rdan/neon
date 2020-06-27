@@ -1,53 +1,110 @@
 library neon;
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import 'neon_char.dart';
+
+enum EnegryLevel { Low, High }
 
 class Neon extends StatefulWidget {
   final String text;
   final Color color;
+  final double fontSize;
+  final NeonFonts font;
+  final bool flickeringAllText;
+  final List<int> flickeringLetters;
 
-  Neon(this.text, this.color, {Key key}) : super(key: key);
+  Neon(
+      {@required this.text,
+      @required this.color,
+      @required this.fontSize,
+      @required this.font,
+      @required this.flickeringAllText,
+      @required this.flickeringLetters,
+      Key key})
+      : super(key: key);
 
   @override
   _NeonState createState() => _NeonState();
 }
 
-class _NeonState extends State<Neon> {
+class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
+  List<EnegryLevel> _enegryLevels;
+
+  String get text => widget.text;
+  Color get color => widget.color;
+  double get fontSize => widget.fontSize;
+  NeonFonts get font => widget.font;
+  bool get flickeringAllText => widget.flickeringAllText;
+  List<int> get flickeringLetters => widget.flickeringLetters;
+
+  @override
+  void initState() {
+    _enegryLevels = List(text.length);
+    // initial high level of the light
+    _changeEnergyLevels(EnegryLevel.High);
+    _waitForLowPower();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        widget.text,
-        style: TextStyle(
-            fontFamily: Fonts.Beon,
-            color: Colors.blue[100],
-            fontSize: 60.0,
-            shadows: [
-              Shadow(color: Colors.blue[200], blurRadius: 10),
-              Shadow(color: Colors.blue[300], blurRadius: 20),
-              Shadow(color: Colors.blue[400], blurRadius: 30),
-            ]),
-      ),
-      // GradientText(
-      //   'Hello Flutter',
-      //   gradient: LinearGradient(colors: [
-      //     Colors.blue.shade400,
-      //     Colors.blue.shade900,
-      //     Colors.green,
-      //   ]),
-      // ),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Row(
+              children: _preprocessText(),
+            )
+          ],
+        ));
+  }
 
-      //     RichText(
-      //   text: TextSpan(
-      //     text: widget.text,
-      //     style: DefaultTextStyle.of(context).style,
-      //     children: <TextSpan>[
-      //       TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
-      //       TextSpan(text: ' world!'),
-      //     ],
-      //   ),
-      // )
-    );
+  List<NeonChar> _preprocessText() {
+    assert(text != null);
+
+    List<NeonChar> list = [];
+    for (var i = 0; i < text.length; i++) {
+      list.add(NeonChar(text[i], font, fontSize, _enegryLevels[i]));
+    }
+    return list;
+  }
+
+  void _waitForHighPower() async {
+    Future.delayed(Duration(milliseconds: _random(150, 300)), () {
+      _changeEnergyLevels(EnegryLevel.High, flickeringLetters);
+    }).then((value) {
+      _waitForLowPower();
+    });
+  }
+
+  void _waitForLowPower() {
+    Future.delayed(Duration(milliseconds: _random(500, 2500)), () {
+      _changeEnergyLevels(EnegryLevel.Low, flickeringLetters);
+    }).then((value) {
+      _waitForHighPower();
+    });
+  }
+
+  void _changeEnergyLevels(EnegryLevel level, [List<int> indexes]) {
+    setState(() {
+      if (indexes == null || indexes.length == 0) {
+        for (var i = 0; i < text.length; i++) {
+          _enegryLevels[i] = level;
+        }
+      } else {
+        for (var index in indexes) {
+          _enegryLevels[index] = level;
+        }
+      }
+    });
+  }
+
+  int _random(int min, int max) {
+    var rn = Random();
+    return min + rn.nextInt(max - min);
   }
 }
 
@@ -78,6 +135,18 @@ class GradientText extends StatelessWidget {
   }
 }
 
+enum NeonFonts {
+  Beon,
+  Monoton,
+  Automania,
+  LasEnter,
+  TextMeOne,
+  NightClub70s,
+  Membra,
+  Samarin,
+  Cyberpunk
+}
+
 class Fonts {
   static const String Beon = 'packages/neon/Beon';
   static const String Monoton = 'packages/neon/Monoton';
@@ -87,4 +156,5 @@ class Fonts {
   static const String NightClub70s = 'packages/neon/Night-Club-70s';
   static const String Membra = 'packages/neon/Membra';
   static const String Samarin = 'packages/neon/Samarin';
+  static const String Cyberpunk = 'packages/neon/Cyberpunk';
 }
