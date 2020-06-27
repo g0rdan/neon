@@ -88,10 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Neon(
               text: 'Hello Flutter!',
-              color: Colors.blue,
+              color: Colors.cyan,
               fontSize: 60,
-              font: NeonFonts.Monoton,
-              flickeringAllText: true,
+              font: NeonFonts.Membra,
+              flickeringAllText: false,
+              flickeringLetters: [0, 3, 4],
             )
           ],
         ),

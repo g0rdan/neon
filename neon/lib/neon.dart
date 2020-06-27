@@ -10,7 +10,7 @@ enum EnegryLevel { Low, High }
 
 class Neon extends StatefulWidget {
   final String text;
-  final Color color;
+  final MaterialColor color;
   final double fontSize;
   final NeonFonts font;
   final bool flickeringAllText;
@@ -34,7 +34,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   List<EnegryLevel> _enegryLevels;
 
   String get text => widget.text;
-  Color get color => widget.color;
+  MaterialColor get color => widget.color;
   double get fontSize => widget.fontSize;
   NeonFonts get font => widget.font;
   bool get flickeringAllText => widget.flickeringAllText;
@@ -67,7 +67,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
     List<NeonChar> list = [];
     for (var i = 0; i < text.length; i++) {
-      list.add(NeonChar(text[i], font, fontSize, _enegryLevels[i]));
+      list.add(NeonChar(text[i], color, font, fontSize, _enegryLevels[i]));
     }
     return list;
   }

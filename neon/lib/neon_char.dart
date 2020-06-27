@@ -5,11 +5,13 @@ import 'package:neon/neon.dart';
 
 class NeonChar extends StatefulWidget {
   final String letter;
+  final MaterialColor color;
   final NeonFonts font;
   final double fontSize;
   final EnegryLevel energyLevel;
 
-  NeonChar(this.letter, this.font, this.fontSize, this.energyLevel, {Key key})
+  NeonChar(this.letter, this.color, this.font, this.fontSize, this.energyLevel,
+      {Key key})
       : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class _NeonCharState extends State<NeonChar> {
   NeonFonts get font => widget.font;
   double get fontSize => widget.fontSize;
   EnegryLevel get enegryLevel => widget.energyLevel;
+  MaterialColor get color => widget.color;
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +68,21 @@ class _NeonCharState extends State<NeonChar> {
   List<Shadow> _getShadows(EnegryLevel enegryLevel) {
     if (enegryLevel == EnegryLevel.Low) {
       return [
-        Shadow(color: Colors.blue[400], blurRadius: 5),
+        Shadow(color: color[400], blurRadius: 5),
       ];
     } else {
       return [
-        Shadow(color: Colors.blue[200], blurRadius: 10),
-        Shadow(color: Colors.blue[300], blurRadius: 30),
-        Shadow(color: Colors.blue[400], blurRadius: 60),
+        Shadow(color: color[200], blurRadius: 10),
+        Shadow(color: color[300], blurRadius: 30),
+        Shadow(color: color[400], blurRadius: 60),
       ];
     }
   }
 
   Color _getPrimartColor(EnegryLevel enegryLevel) {
-    return enegryLevel == EnegryLevel.Low ? Colors.blue[300] : Colors.blue[50];
+    return enegryLevel == EnegryLevel.Low
+        ? color[300]
+        : color[50]; //Colors.blue[300] : Colors.blue[50];
   }
 
   void _waitForHighPower() async {
