@@ -1,14 +1,40 @@
-# neon
+# Neon
 
-A new Flutter package project.
+![Neon](neon.gif)
 
-## Getting Started
+A Flutter package that allows you to use beautiful neon signs in your app.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Description
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+As it is mentioned above, the plugin allows you to put neon style'sh signs into your app.
+There are several parameters for tunning:
+
+*String* **text** - the actual text of the sign
+
+*MaterialColor* **color** - text's color
+
+*double* **fontSize** - text's size
+
+*NeonFont* **font** - build-in fonts for the text:
+
+    - Automania
+    - Beon
+    - Cyberpunk
+    - LasEnter
+    - Membra
+    - Monoton
+    - Night-Club-70s
+    - Samarin
+    - TextMeOne
+
+*bool* **flickeringText** - if the parameter is true text will be flickering with random frequency
+
+*List<int>* **flickeringLetters** - indexes of the letters in the text that will be flickering (if the parameter is null and flickeringText == true all the text will be flickering)
+
+*double* **blurRadius** - radius of the blur effect
+
+*bool* **glowing** - glowing parameter (glows if it's true)
+
+*Duration* **glowingDuration** - the duration of the glowing
+
+*TextStyle* **textStyle** - custom style for the text
