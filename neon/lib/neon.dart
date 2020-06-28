@@ -3,6 +3,7 @@ library neon;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:neon/neon_exception.dart';
 
 import 'neon_char.dart';
 
@@ -16,6 +17,8 @@ class Neon extends StatefulWidget {
   final bool flickeringText;
   final List<int> flickeringLetters;
   final double blurRadius;
+  final bool glowing;
+  final Duration glowingDuration;
 
   Neon(
       {@required this.text,
@@ -25,6 +28,8 @@ class Neon extends StatefulWidget {
       this.blurRadius = 30,
       this.flickeringText = false,
       this.flickeringLetters,
+      this.glowing = false,
+      this.glowingDuration = const Duration(milliseconds: 1500),
       Key key})
       : super(key: key);
 
@@ -34,7 +39,6 @@ class Neon extends StatefulWidget {
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   List<EnegryLevel> _enegryLevels;
-  // GlobalKey _widgetKey = GlobalKey();
 
   String get text => widget.text;
   MaterialColor get color => widget.color;
@@ -43,10 +47,11 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   bool get flickeringText => widget.flickeringText;
   List<int> get flickeringLetters => widget.flickeringLetters;
   double get blurRadius => widget.blurRadius;
+  bool get glowing => widget.glowing;
+  Duration get glowingDuration => widget.glowingDuration;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     _enegryLevels = List(text.length);
     // initial high level of the light
     _changeEnergyLevels(EnegryLevel.High);
@@ -59,18 +64,10 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Container(
+        child: Row(
       children: _preprocessText(),
-    );
-  }
-
-  _afterLayout(_) {
-    // var renderWidgetBox =
-    //     _widgetKey.currentContext.findRenderObject() as RenderBox;
-    // setState(() {
-    //   _width = renderWidgetBox.size.width;
-    //   _height = renderWidgetBox.size.height;
-    // });
+    ));
   }
 
   List<NeonChar> _preprocessText() {
@@ -78,8 +75,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
     List<NeonChar> list = [];
     for (var i = 0; i < text.length; i++) {
-      list.add(NeonChar(
-          text[i], color, font, fontSize, _enegryLevels[i], blurRadius));
+      list.add(NeonChar(text[i], color, font, fontSize, _enegryLevels[i],
+          blurRadius, glowing, glowingDuration));
     }
     return list;
   }
@@ -108,6 +105,10 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
         }
       } else {
         for (var index in indexes) {
+          if (index > text.length - 1) {
+            throw NeonException(
+                'Index of flickering letter cannot be more than length of the text');
+          }
           _enegryLevels[index] = level;
         }
       }
