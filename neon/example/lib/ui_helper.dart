@@ -28,9 +28,10 @@ class UIHelper {
                       },
                       childCount: options.length,
                       itemBuilder: (context, index) {
+                        var name = _getName(options[index]);
                         return new Center(
                           child: new Text(
-                            '${options[index]}',
+                            name,
                             style: TextStyle(fontSize: 18),
                           ),
                         );
@@ -45,5 +46,13 @@ class UIHelper {
                 ],
               ));
         });
+  }
+
+  static String _getName<T>(T t) {
+    if (t is MapEntry) {
+      return t.key.toString();
+    }
+
+    return t.toString();
   }
 }

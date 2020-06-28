@@ -10,9 +10,10 @@ class NeonChar extends StatefulWidget {
   final double blurRadius;
   final bool glowing;
   final Duration glowingDuration;
+  final TextStyle textStyle;
 
   NeonChar(this.letter, this.color, this.font, this.fontSize, this.energyLevel,
-      this.blurRadius, this.glowing, this.glowingDuration,
+      this.blurRadius, this.glowing, this.glowingDuration, this.textStyle,
       {Key key})
       : super(key: key);
 
@@ -31,6 +32,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   double get blurRadius => widget.blurRadius;
   bool get glowing => widget.glowing;
   Duration get glowingDuration => widget.glowingDuration;
+  TextStyle get textStyle => widget.textStyle;
 
   @override
   void initState() {
@@ -44,8 +46,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(NeonChar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print('glowing ${widget.glowing}');
-    if (widget.glowing) {
+    if (glowing) {
       _shadowController.repeat(min: 0.2, max: 1, reverse: true);
     }
   }
@@ -63,13 +64,16 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
             ? AnimatedBuilder(
                 animation: _shadowController,
                 builder: (context, child) {
-                  var radius = _shadowController.value * blurRadius;
+                  var radius = _shadowController.value * blurRadius * 1.5;
                   return Text(letter,
-                      style: TextStyle(
-                          fontFamily: _extractFont(font),
-                          color: _getPrimartColor(enegryLevel),
-                          fontSize: fontSize,
-                          shadows: _getShadows(enegryLevel, radius)));
+                      style: textStyle != null
+                          ? textStyle.copyWith(
+                              shadows: _getShadows(enegryLevel, radius))
+                          : TextStyle(
+                              fontFamily: _extractFont(font),
+                              color: _getPrimartColor(enegryLevel),
+                              fontSize: fontSize,
+                              shadows: _getShadows(enegryLevel, radius)));
                 },
               )
             : Text(letter,
@@ -114,9 +118,9 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
       ];
     } else {
       return [
-        Shadow(color: color[200], blurRadius: radius / 3),
-        Shadow(color: color[300], blurRadius: radius),
-        Shadow(color: color[400], blurRadius: radius * 2),
+        Shadow(color: color[300], blurRadius: radius / 2),
+        Shadow(color: color[400], blurRadius: radius),
+        Shadow(color: color[500], blurRadius: radius * 3),
       ];
     }
   }

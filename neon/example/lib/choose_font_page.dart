@@ -13,8 +13,18 @@ class ChooseFontPage extends StatefulWidget {
 class _ChooseFontPageState extends State<ChooseFontPage> {
   NeonFont _neonFont = NeonFont.Membra;
   double _fontSize = 30;
+  MaterialColor _color = Colors.deepPurple;
+  String _colorName = 'deepPurple';
   TextEditingController _textEditingController =
       TextEditingController(text: 'Cyberpunk');
+
+  List<MapEntry<String, MaterialColor>> _colors = [];
+
+  @override
+  void initState() {
+    _initColorList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,7 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                         child: Container(
                       child: Neon(
                         text: _textEditingController.text,
-                        color: Colors.deepPurple,
+                        color: _color,
                         fontSize: _fontSize,
                         font: _neonFont,
                         blurRadius: 10,
@@ -58,15 +68,28 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                                     labelText: 'Text',
                                   ),
                                 ),
-                                Slider(
-                                    min: 10,
-                                    max: 70,
-                                    value: _fontSize,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _fontSize = value;
-                                      });
-                                    }),
+                                Container(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Font size:',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Slider(
+                                          min: 10,
+                                          max: 70,
+                                          value: _fontSize,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _fontSize = value;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
                                 RaisedButton(
                                     child: Text(
                                         _neonFont.toString().split('.')[1]),
@@ -80,6 +103,21 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                                         setState(() {});
                                         Navigator.of(context).pop();
                                       }, actionIcon: Icons.check);
+                                    }),
+                                RaisedButton(
+                                    color: _color,
+                                    child: Text(_colorName),
+                                    onPressed: () {
+                                      UIHelper.generateModalBottomSheet<
+                                              MapEntry<String, MaterialColor>>(
+                                          context, _colors,
+                                          onChangedCallback: (value) {
+                                        _color = value.value;
+                                        _colorName = value.key;
+                                      }, onPressCallback: () {
+                                        setState(() {});
+                                        Navigator.of(context).pop();
+                                      }, actionIcon: Icons.check);
                                     })
                               ],
                             )))
@@ -87,5 +125,23 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                 ))
           ],
         ));
+  }
+
+  void _initColorList() {
+    _colors.add(MapEntry<String, MaterialColor>('amber', Colors.amber));
+    _colors.add(MapEntry<String, MaterialColor>('blue', Colors.blue));
+    _colors.add(MapEntry<String, MaterialColor>('brown', Colors.brown));
+    _colors.add(MapEntry<String, MaterialColor>('cyan', Colors.cyan));
+    _colors
+        .add(MapEntry<String, MaterialColor>('deepOrange', Colors.deepOrange));
+    _colors.add(MapEntry<String, MaterialColor>('green', Colors.green));
+    _colors.add(MapEntry<String, MaterialColor>('indigo', Colors.indigo));
+    _colors.add(MapEntry<String, MaterialColor>('lightBlue', Colors.lightBlue));
+    _colors.add(MapEntry<String, MaterialColor>('lime', Colors.lime));
+    _colors.add(MapEntry<String, MaterialColor>('orange', Colors.orange));
+    _colors.add(MapEntry<String, MaterialColor>('pink', Colors.pink));
+    _colors.add(MapEntry<String, MaterialColor>('purple', Colors.purple));
+    _colors.add(MapEntry<String, MaterialColor>('red', Colors.red));
+    _colors.add(MapEntry<String, MaterialColor>('yellow', Colors.yellow));
   }
 }
