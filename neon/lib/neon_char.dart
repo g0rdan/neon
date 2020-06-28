@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:neon/neon.dart';
 
 class NeonChar extends StatefulWidget {
   final String letter;
   final MaterialColor color;
-  final NeonFonts font;
+  final NeonFont font;
   final double fontSize;
   final EnegryLevel energyLevel;
   final double blurRadius;
@@ -26,7 +24,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   AnimationController _shadowController;
 
   String get letter => widget.letter;
-  NeonFonts get font => widget.font;
+  NeonFont get font => widget.font;
   double get fontSize => widget.fontSize;
   EnegryLevel get enegryLevel => widget.energyLevel;
   MaterialColor get color => widget.color;
@@ -36,15 +34,20 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    if (glowing) {
-      _shadowController = AnimationController(
-        duration: glowingDuration,
-        vsync: this,
-      );
+    _shadowController = AnimationController(
+      duration: glowingDuration,
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(NeonChar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('glowing ${widget.glowing}');
+    if (widget.glowing) {
       _shadowController.repeat(min: 0.2, max: 1, reverse: true);
     }
-
-    super.initState();
   }
 
   @override
@@ -77,27 +80,27 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
                     shadows: _getShadows(enegryLevel, blurRadius))));
   }
 
-  String _extractFont(NeonFonts font) {
+  String _extractFont(NeonFont font) {
     assert(font != null);
 
     switch (font) {
-      case NeonFonts.Automania:
+      case NeonFont.Automania:
         return 'packages/neon/Automania';
-      case NeonFonts.Beon:
+      case NeonFont.Beon:
         return 'packages/neon/Beon';
-      case NeonFonts.Cyberpunk:
+      case NeonFont.Cyberpunk:
         return 'packages/neon/Cyberpunk';
-      case NeonFonts.LasEnter:
+      case NeonFont.LasEnter:
         return 'packages/neon/LasEnter';
-      case NeonFonts.Membra:
+      case NeonFont.Membra:
         return 'packages/neon/Membra';
-      case NeonFonts.Monoton:
+      case NeonFont.Monoton:
         return 'packages/neon/Monoton';
-      case NeonFonts.NightClub70s:
+      case NeonFont.NightClub70s:
         return 'packages/neon/NightClub70s';
-      case NeonFonts.Samarin:
+      case NeonFont.Samarin:
         return 'packages/neon/Samarin';
-      case NeonFonts.TextMeOne:
+      case NeonFont.TextMeOne:
         return 'packages/neon/TextMeOne';
       default:
         return 'packages/neon/Beon';

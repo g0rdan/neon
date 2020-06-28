@@ -2,6 +2,7 @@ library neon;
 
 import 'dart:math';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:neon/neon_exception.dart';
 
@@ -13,7 +14,7 @@ class Neon extends StatefulWidget {
   final String text;
   final MaterialColor color;
   final double fontSize;
-  final NeonFonts font;
+  final NeonFont font;
   final bool flickeringText;
   final List<int> flickeringLetters;
   final double blurRadius;
@@ -39,11 +40,13 @@ class Neon extends StatefulWidget {
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   List<EnegryLevel> _enegryLevels;
+  CancelableOperation _cancelableWaitingForLowPower;
+  CancelableOperation _cancelableWaitingForHighPower;
 
   String get text => widget.text;
   MaterialColor get color => widget.color;
   double get fontSize => widget.fontSize;
-  NeonFonts get font => widget.font;
+  NeonFont get font => widget.font;
   bool get flickeringText => widget.flickeringText;
   List<int> get flickeringLetters => widget.flickeringLetters;
   double get blurRadius => widget.blurRadius;
@@ -55,19 +58,43 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
     _enegryLevels = List(text.length);
     // initial high level of the light
     _changeEnergyLevels(EnegryLevel.High);
-    if (flickeringText ||
-        (flickeringLetters != null && flickeringLetters.length > 0)) {
-      _waitForLowPower();
-    }
+    _checkIfFlickeringNeeded();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(Neon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _checkIfFlickeringNeeded();
+  }
+
+  @override
+  void dispose() {
+    _cancelableWaitingForLowPower?.cancel();
+    _cancelableWaitingForHighPower?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: _preprocessText(),
     ));
+  }
+
+  void _checkIfFlickeringNeeded() {
+    if (flickeringText ||
+        (flickeringLetters != null && flickeringLetters.length > 0)) {
+      _cancelableWaitingForLowPower = CancelableOperation.fromFuture(
+        _waitForLowPower(),
+        onCancel: () => {debugPrint('onCancel')},
+      );
+    } else {
+      _cancelableWaitingForLowPower?.cancel();
+      _cancelableWaitingForHighPower?.cancel();
+    }
   }
 
   List<NeonChar> _preprocessText() {
@@ -81,19 +108,25 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
     return list;
   }
 
-  void _waitForHighPower() async {
-    Future.delayed(Duration(milliseconds: _random(150, 300)), () {
+  Future<void> _waitForHighPower() {
+    return Future.delayed(Duration(milliseconds: _random(150, 300)), () {
       _changeEnergyLevels(EnegryLevel.High, flickeringLetters);
     }).then((value) {
-      _waitForLowPower();
+      _cancelableWaitingForLowPower = CancelableOperation.fromFuture(
+        _waitForLowPower(),
+        onCancel: () => {debugPrint('onCancel')},
+      );
     });
   }
 
-  void _waitForLowPower() {
-    Future.delayed(Duration(milliseconds: _random(500, 2500)), () {
+  Future<void> _waitForLowPower() {
+    return Future.delayed(Duration(milliseconds: _random(500, 2500)), () {
       _changeEnergyLevels(EnegryLevel.Low, flickeringLetters);
     }).then((value) {
-      _waitForHighPower();
+      _cancelableWaitingForHighPower = CancelableOperation.fromFuture(
+        _waitForHighPower(),
+        onCancel: () => {debugPrint('onCancel')},
+      );
     });
   }
 
@@ -148,7 +181,7 @@ class GradientText extends StatelessWidget {
   }
 }
 
-enum NeonFonts {
+enum NeonFont {
   Beon,
   Monoton,
   Automania,
