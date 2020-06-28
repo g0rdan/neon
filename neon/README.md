@@ -1,10 +1,10 @@
-# Neon
+# neon
 
 ![Neon](neon.gif)
 
 A Flutter package that allows you to use beautiful neon signs in your app.
 
-## Description
+## description
 
 As it is mentioned above, the plugin allows you to put neon style'sh signs into your app.
 There are several parameters for tunning:
@@ -38,3 +38,16 @@ There are several parameters for tunning:
 *Duration* **glowingDuration** - the duration of the glowing
 
 *TextStyle* **textStyle** - custom style for the text
+
+## code example
+
+```dart
+Neon(
+    text: 'Retro',
+    color: Colors.green,
+    fontSize: 50,
+    font: NeonFont.Membra,
+    flickeringText: true,
+    flickeringLetters: [0,1],
+)
+```
