@@ -13,18 +13,18 @@ class Neon extends StatefulWidget {
   final MaterialColor color;
   final double fontSize;
   final NeonFonts font;
-  final bool flickeringAllText;
+  final bool flickeringText;
   final List<int> flickeringLetters;
   final double blurRadius;
 
   Neon(
       {@required this.text,
       @required this.color,
-      @required this.fontSize,
       @required this.font,
-      @required this.flickeringAllText,
-      @required this.flickeringLetters,
+      this.fontSize = 30,
       this.blurRadius = 30,
+      this.flickeringText = false,
+      this.flickeringLetters,
       Key key})
       : super(key: key);
 
@@ -34,35 +34,43 @@ class Neon extends StatefulWidget {
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   List<EnegryLevel> _enegryLevels;
+  // GlobalKey _widgetKey = GlobalKey();
 
   String get text => widget.text;
   MaterialColor get color => widget.color;
   double get fontSize => widget.fontSize;
   NeonFonts get font => widget.font;
-  bool get flickeringAllText => widget.flickeringAllText;
+  bool get flickeringText => widget.flickeringText;
   List<int> get flickeringLetters => widget.flickeringLetters;
   double get blurRadius => widget.blurRadius;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     _enegryLevels = List(text.length);
     // initial high level of the light
     _changeEnergyLevels(EnegryLevel.High);
-    _waitForLowPower();
+    if (flickeringText ||
+        (flickeringLetters != null && flickeringLetters.length > 0)) {
+      _waitForLowPower();
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            Row(
-              children: _preprocessText(),
-            )
-          ],
-        ));
+    return Row(
+      children: _preprocessText(),
+    );
+  }
+
+  _afterLayout(_) {
+    // var renderWidgetBox =
+    //     _widgetKey.currentContext.findRenderObject() as RenderBox;
+    // setState(() {
+    //   _width = renderWidgetBox.size.width;
+    //   _height = renderWidgetBox.size.height;
+    // });
   }
 
   List<NeonChar> _preprocessText() {

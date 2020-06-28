@@ -23,32 +23,32 @@ flutter:
   fonts:
     - family: Monoton
       fonts:
-        - asset: lib/fonts/Monoton-Regular.ttf
+        - asset: lib/fonts/Monoton/Monoton-Regular.ttf
     - family: Automania
       fonts:
-        - asset: lib/fonts/Automania.ttf
+        - asset: lib/fonts/Automania/Automania.ttf
     - family: Beon
       fonts:
-        - asset: lib/fonts/Beon.otf
+        - asset: lib/fonts/Beon/Beon.otf
     - family: LasEnter
       fonts:
-        - asset: lib/fonts/LasEnter.ttf
+        - asset: lib/fonts/LasEnter/LasEnter.ttf
     - family: TextMeOne
       fonts:
-        - asset: lib/fonts/TextMeOne-Regular.ttf
+        - asset: lib/fonts/TextMeOne/TextMeOne-Regular.ttf
     - family: Night-Club-70s
       fonts:
-        - asset: lib/fonts/Night-Club-70s-Bold.ttf
-        - asset: lib/fonts/Night-Club-70s-Regular.ttf
+        - asset: lib/fonts/Night-Club-70s/Night-Club-70s-Bold.ttf
+        - asset: lib/fonts/Night-Club-70s/Night-Club-70s-Regular.ttf
     - family: Membra
       fonts:
-        - asset: lib/fonts/Membra.ttf
+        - asset: lib/fonts/Membra/Membra.ttf
     - family: Samarin
       fonts:
-        - asset: lib/fonts/Samarin.ttf
+        - asset: lib/fonts/Samarin/Samarin.ttf
     - family: Cyberpunk
       fonts:
-        - asset: lib/fonts/Cyberpunk.ttf
+        - asset: lib/fonts/Cyberpunk/Cyberpunk.ttf
 
   # To add assets to your package, add an assets section, like this:
   # assets:
