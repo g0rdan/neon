@@ -2,7 +2,8 @@
 
 ![Neon](neon.gif)
 
-A Flutter package that allows you to use beautiful neon signs in your app.
+A Flutter plugin that allows you to use beautiful neon signs in your app.
+[Link](https://pub.dev/packages/neon)
 
 ## description
 

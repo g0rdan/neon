@@ -1,8 +1,7 @@
 name: neon
-description: A new Flutter package project.
+description: A Flutter plugin that allows you to use beautiful neon signs in your app.
 version: 0.0.1
-author:
-homepage:
+homepage: https://github.com/g0rdan/neon
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
