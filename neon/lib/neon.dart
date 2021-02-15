@@ -46,14 +46,23 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   CancelableOperation _cancelableWaitingForHighPower;
 
   String get text => widget.text;
+
   MaterialColor get color => widget.color;
+
   double get fontSize => widget.fontSize;
+
   NeonFont get font => widget.font;
+
   bool get flickeringText => widget.flickeringText;
+
   List<int> get flickeringLetters => widget.flickeringLetters;
+
   double get blurRadius => widget.blurRadius;
+
   bool get glowing => widget.glowing;
+
   Duration get glowingDuration => widget.glowingDuration;
+
   TextStyle get textStyle => widget.textStyle;
 
   @override
@@ -196,14 +205,29 @@ enum NeonFont {
   Cyberpunk
 }
 
-class Fonts {
-  static const String Beon = 'packages/neon/Beon';
-  static const String Monoton = 'packages/neon/Monoton';
-  static const String Automania = 'packages/neon/Automania';
-  static const String LasEnter = 'packages/neon/LasEnter';
-  static const String TextMeOne = 'packages/neon/TextMeOne';
-  static const String NightClub70s = 'packages/neon/Night-Club-70s';
-  static const String Membra = 'packages/neon/Membra';
-  static const String Samarin = 'packages/neon/Samarin';
-  static const String Cyberpunk = 'packages/neon/Cyberpunk';
+extension Font on NeonFont {
+  String get name {
+    switch (this) {
+      case NeonFont.Automania:
+        return 'packages/neon/Automania';
+      case NeonFont.Beon:
+        return 'packages/neon/Beon';
+      case NeonFont.Cyberpunk:
+        return 'packages/neon/Cyberpunk';
+      case NeonFont.LasEnter:
+        return 'packages/neon/LasEnter';
+      case NeonFont.Membra:
+        return 'packages/neon/Membra';
+      case NeonFont.Monoton:
+        return 'packages/neon/Monoton';
+      case NeonFont.NightClub70s:
+        return 'packages/neon/NightClub70s';
+      case NeonFont.Samarin:
+        return 'packages/neon/Samarin';
+      case NeonFont.TextMeOne:
+        return 'packages/neon/TextMeOne';
+      default:
+        return 'packages/neon/Beon';
+    }
+  }
 }

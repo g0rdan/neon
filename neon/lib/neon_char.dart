@@ -87,28 +87,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   String _extractFont(NeonFont font) {
     assert(font != null);
 
-    switch (font) {
-      case NeonFont.Automania:
-        return 'packages/neon/Automania';
-      case NeonFont.Beon:
-        return 'packages/neon/Beon';
-      case NeonFont.Cyberpunk:
-        return 'packages/neon/Cyberpunk';
-      case NeonFont.LasEnter:
-        return 'packages/neon/LasEnter';
-      case NeonFont.Membra:
-        return 'packages/neon/Membra';
-      case NeonFont.Monoton:
-        return 'packages/neon/Monoton';
-      case NeonFont.NightClub70s:
-        return 'packages/neon/NightClub70s';
-      case NeonFont.Samarin:
-        return 'packages/neon/Samarin';
-      case NeonFont.TextMeOne:
-        return 'packages/neon/TextMeOne';
-      default:
-        return 'packages/neon/Beon';
-    }
+    return font.name;
   }
 
   List<Shadow> _getShadows(EnergyLevel energyLevel, double radius) {
@@ -125,7 +104,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  Color _getPrimartColor(EnergyLevel energyLevel) {
-    return energyLevel == EnergyLevel.Low ? color[300] : color[50];
+  Color _getPrimartColor(EnergyLevel enegryLevel) {
+    return enegryLevel == EnergyLevel.Low ? color[300] : color[50];
   }
 }
