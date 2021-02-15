@@ -6,7 +6,7 @@ class NeonChar extends StatefulWidget {
   final MaterialColor color;
   final NeonFont font;
   final double fontSize;
-  final EnegryLevel energyLevel;
+  final EnergyLevel energyLevel;
   final double blurRadius;
   final bool glowing;
   final Duration glowingDuration;
@@ -27,7 +27,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   String get letter => widget.letter;
   NeonFont get font => widget.font;
   double get fontSize => widget.fontSize;
-  EnegryLevel get enegryLevel => widget.energyLevel;
+  EnergyLevel get enegryLevel => widget.energyLevel;
   MaterialColor get color => widget.color;
   double get blurRadius => widget.blurRadius;
   bool get glowing => widget.glowing;
@@ -111,8 +111,8 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  List<Shadow> _getShadows(EnegryLevel enegryLevel, double radius) {
-    if (enegryLevel == EnegryLevel.Low) {
+  List<Shadow> _getShadows(EnergyLevel enegryLevel, double radius) {
+    if (enegryLevel == EnergyLevel.Low) {
       return [
         Shadow(color: color[400], blurRadius: radius / 6),
       ];
@@ -125,7 +125,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  Color _getPrimartColor(EnegryLevel enegryLevel) {
-    return enegryLevel == EnegryLevel.Low ? color[300] : color[50];
+  Color _getPrimartColor(EnergyLevel enegryLevel) {
+    return enegryLevel == EnergyLevel.Low ? color[300] : color[50];
   }
 }

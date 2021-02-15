@@ -8,7 +8,7 @@ import 'package:neon/neon_exception.dart';
 
 import 'neon_char.dart';
 
-enum EnegryLevel { Low, High }
+enum EnergyLevel { Low, High }
 
 class Neon extends StatefulWidget {
   final String text;
@@ -41,7 +41,7 @@ class Neon extends StatefulWidget {
 }
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
-  List<EnegryLevel> _enegryLevels;
+  List<EnergyLevel> _enegryLevels;
   CancelableOperation _cancelableWaitingForLowPower;
   CancelableOperation _cancelableWaitingForHighPower;
 
@@ -60,7 +60,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   void initState() {
     _enegryLevels = List(text.length);
     // initial high level of the light
-    _changeEnergyLevels(EnegryLevel.High);
+    _changeEnergyLevels(EnergyLevel.High);
     _checkIfFlickeringNeeded();
     super.initState();
   }
@@ -112,8 +112,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _waitForHighPower() {
-    return Future.delayed(Duration(milliseconds: _random(150, 300)), () {
-      _changeEnergyLevels(EnegryLevel.High, flickeringLetters);
+    return Future.delayed(Duration(milliseconds: _random(150, 600)), () {
+      _changeEnergyLevels(EnergyLevel.High, flickeringLetters);
     }).then((value) {
       _cancelableWaitingForLowPower = CancelableOperation.fromFuture(
         _waitForLowPower(),
@@ -123,8 +123,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _waitForLowPower() {
-    return Future.delayed(Duration(milliseconds: _random(500, 2500)), () {
-      _changeEnergyLevels(EnegryLevel.Low, flickeringLetters);
+    return Future.delayed(Duration(milliseconds: _random(500, 5000)), () {
+      _changeEnergyLevels(EnergyLevel.Low, flickeringLetters);
     }).then((value) {
       _cancelableWaitingForHighPower = CancelableOperation.fromFuture(
         _waitForHighPower(),
@@ -133,7 +133,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _changeEnergyLevels(EnegryLevel level, [List<int> indexes]) {
+  void _changeEnergyLevels(EnergyLevel level, [List<int> indexes]) {
     setState(() {
       if (indexes == null || indexes.length == 0) {
         for (var i = 0; i < text.length; i++) {
