@@ -27,7 +27,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   String get letter => widget.letter;
   NeonFont get font => widget.font;
   double get fontSize => widget.fontSize;
-  EnergyLevel get enegryLevel => widget.energyLevel;
+  EnergyLevel get energyLevel => widget.energyLevel;
   MaterialColor get color => widget.color;
   double get blurRadius => widget.blurRadius;
   bool get glowing => widget.glowing;
@@ -68,20 +68,20 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
                   return Text(letter,
                       style: textStyle != null
                           ? textStyle.copyWith(
-                              shadows: _getShadows(enegryLevel, radius))
+                              shadows: _getShadows(energyLevel, radius))
                           : TextStyle(
                               fontFamily: _extractFont(font),
-                              color: _getPrimartColor(enegryLevel),
+                              color: _getPrimartColor(energyLevel),
                               fontSize: fontSize,
-                              shadows: _getShadows(enegryLevel, radius)));
+                              shadows: _getShadows(energyLevel, radius)));
                 },
               )
             : Text(letter,
                 style: TextStyle(
                     fontFamily: _extractFont(font),
-                    color: _getPrimartColor(enegryLevel),
+                    color: _getPrimartColor(energyLevel),
                     fontSize: fontSize,
-                    shadows: _getShadows(enegryLevel, blurRadius))));
+                    shadows: _getShadows(energyLevel, blurRadius))));
   }
 
   String _extractFont(NeonFont font) {
@@ -111,8 +111,8 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  List<Shadow> _getShadows(EnergyLevel enegryLevel, double radius) {
-    if (enegryLevel == EnergyLevel.Low) {
+  List<Shadow> _getShadows(EnergyLevel energyLevel, double radius) {
+    if (energyLevel == EnergyLevel.Low) {
       return [
         Shadow(color: color[400], blurRadius: radius / 6),
       ];
@@ -125,7 +125,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  Color _getPrimartColor(EnergyLevel enegryLevel) {
-    return enegryLevel == EnergyLevel.Low ? color[300] : color[50];
+  Color _getPrimartColor(EnergyLevel energyLevel) {
+    return energyLevel == EnergyLevel.Low ? color[300] : color[50];
   }
 }
