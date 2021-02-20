@@ -8,7 +8,7 @@ import 'package:neon/neon_exception.dart';
 
 import 'neon_char.dart';
 
-enum EnegryLevel { Low, High }
+enum EnergyLevel { Low, High }
 
 class Neon extends StatefulWidget {
   final String text;
@@ -41,26 +41,35 @@ class Neon extends StatefulWidget {
 }
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
-  List<EnegryLevel> _enegryLevels;
+  List<EnergyLevel> _enegryLevels;
   CancelableOperation _cancelableWaitingForLowPower;
   CancelableOperation _cancelableWaitingForHighPower;
 
   String get text => widget.text;
+
   MaterialColor get color => widget.color;
+
   double get fontSize => widget.fontSize;
+
   NeonFont get font => widget.font;
+
   bool get flickeringText => widget.flickeringText;
+
   List<int> get flickeringLetters => widget.flickeringLetters;
+
   double get blurRadius => widget.blurRadius;
+
   bool get glowing => widget.glowing;
+
   Duration get glowingDuration => widget.glowingDuration;
+
   TextStyle get textStyle => widget.textStyle;
 
   @override
   void initState() {
     _enegryLevels = List(text.length);
     // initial high level of the light
-    _changeEnergyLevels(EnegryLevel.High);
+    _changeEnergyLevels(EnergyLevel.High);
     _checkIfFlickeringNeeded();
     super.initState();
   }
@@ -112,8 +121,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _waitForHighPower() {
-    return Future.delayed(Duration(milliseconds: _random(150, 300)), () {
-      _changeEnergyLevels(EnegryLevel.High, flickeringLetters);
+    return Future.delayed(Duration(milliseconds: _random(150, 600)), () {
+      _changeEnergyLevels(EnergyLevel.High, flickeringLetters);
     }).then((value) {
       _cancelableWaitingForLowPower = CancelableOperation.fromFuture(
         _waitForLowPower(),
@@ -123,8 +132,8 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _waitForLowPower() {
-    return Future.delayed(Duration(milliseconds: _random(500, 2500)), () {
-      _changeEnergyLevels(EnegryLevel.Low, flickeringLetters);
+    return Future.delayed(Duration(milliseconds: _random(500, 5000)), () {
+      _changeEnergyLevels(EnergyLevel.Low, flickeringLetters);
     }).then((value) {
       _cancelableWaitingForHighPower = CancelableOperation.fromFuture(
         _waitForHighPower(),
@@ -133,7 +142,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _changeEnergyLevels(EnegryLevel level, [List<int> indexes]) {
+  void _changeEnergyLevels(EnergyLevel level, [List<int> indexes]) {
     setState(() {
       if (indexes == null || indexes.length == 0) {
         for (var i = 0; i < text.length; i++) {
@@ -196,14 +205,29 @@ enum NeonFont {
   Cyberpunk
 }
 
-class Fonts {
-  static const String Beon = 'packages/neon/Beon';
-  static const String Monoton = 'packages/neon/Monoton';
-  static const String Automania = 'packages/neon/Automania';
-  static const String LasEnter = 'packages/neon/LasEnter';
-  static const String TextMeOne = 'packages/neon/TextMeOne';
-  static const String NightClub70s = 'packages/neon/Night-Club-70s';
-  static const String Membra = 'packages/neon/Membra';
-  static const String Samarin = 'packages/neon/Samarin';
-  static const String Cyberpunk = 'packages/neon/Cyberpunk';
+extension Font on NeonFont {
+  String get name {
+    switch (this) {
+      case NeonFont.Automania:
+        return 'packages/neon/Automania';
+      case NeonFont.Beon:
+        return 'packages/neon/Beon';
+      case NeonFont.Cyberpunk:
+        return 'packages/neon/Cyberpunk';
+      case NeonFont.LasEnter:
+        return 'packages/neon/LasEnter';
+      case NeonFont.Membra:
+        return 'packages/neon/Membra';
+      case NeonFont.Monoton:
+        return 'packages/neon/Monoton';
+      case NeonFont.NightClub70s:
+        return 'packages/neon/NightClub70s';
+      case NeonFont.Samarin:
+        return 'packages/neon/Samarin';
+      case NeonFont.TextMeOne:
+        return 'packages/neon/TextMeOne';
+      default:
+        return 'packages/neon/Beon';
+    }
+  }
 }

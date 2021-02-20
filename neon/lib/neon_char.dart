@@ -6,7 +6,7 @@ class NeonChar extends StatefulWidget {
   final MaterialColor color;
   final NeonFont font;
   final double fontSize;
-  final EnegryLevel energyLevel;
+  final EnergyLevel energyLevel;
   final double blurRadius;
   final bool glowing;
   final Duration glowingDuration;
@@ -27,7 +27,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   String get letter => widget.letter;
   NeonFont get font => widget.font;
   double get fontSize => widget.fontSize;
-  EnegryLevel get enegryLevel => widget.energyLevel;
+  EnergyLevel get energyLevel => widget.energyLevel;
   MaterialColor get color => widget.color;
   double get blurRadius => widget.blurRadius;
   bool get glowing => widget.glowing;
@@ -68,51 +68,30 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
                   return Text(letter,
                       style: textStyle != null
                           ? textStyle.copyWith(
-                              shadows: _getShadows(enegryLevel, radius))
+                              shadows: _getShadows(energyLevel, radius))
                           : TextStyle(
                               fontFamily: _extractFont(font),
-                              color: _getPrimartColor(enegryLevel),
+                              color: _getPrimartColor(energyLevel),
                               fontSize: fontSize,
-                              shadows: _getShadows(enegryLevel, radius)));
+                              shadows: _getShadows(energyLevel, radius)));
                 },
               )
             : Text(letter,
                 style: TextStyle(
                     fontFamily: _extractFont(font),
-                    color: _getPrimartColor(enegryLevel),
+                    color: _getPrimartColor(energyLevel),
                     fontSize: fontSize,
-                    shadows: _getShadows(enegryLevel, blurRadius))));
+                    shadows: _getShadows(energyLevel, blurRadius))));
   }
 
   String _extractFont(NeonFont font) {
     assert(font != null);
 
-    switch (font) {
-      case NeonFont.Automania:
-        return 'packages/neon/Automania';
-      case NeonFont.Beon:
-        return 'packages/neon/Beon';
-      case NeonFont.Cyberpunk:
-        return 'packages/neon/Cyberpunk';
-      case NeonFont.LasEnter:
-        return 'packages/neon/LasEnter';
-      case NeonFont.Membra:
-        return 'packages/neon/Membra';
-      case NeonFont.Monoton:
-        return 'packages/neon/Monoton';
-      case NeonFont.NightClub70s:
-        return 'packages/neon/NightClub70s';
-      case NeonFont.Samarin:
-        return 'packages/neon/Samarin';
-      case NeonFont.TextMeOne:
-        return 'packages/neon/TextMeOne';
-      default:
-        return 'packages/neon/Beon';
-    }
+    return font.name;
   }
 
-  List<Shadow> _getShadows(EnegryLevel enegryLevel, double radius) {
-    if (enegryLevel == EnegryLevel.Low) {
+  List<Shadow> _getShadows(EnergyLevel energyLevel, double radius) {
+    if (energyLevel == EnergyLevel.Low) {
       return [
         Shadow(color: color[400], blurRadius: radius / 6),
       ];
@@ -125,7 +104,7 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
     }
   }
 
-  Color _getPrimartColor(EnegryLevel enegryLevel) {
-    return enegryLevel == EnegryLevel.Low ? color[300] : color[50];
+  Color _getPrimartColor(EnergyLevel enegryLevel) {
+    return enegryLevel == EnergyLevel.Low ? color[300] : color[50];
   }
 }
