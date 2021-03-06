@@ -16,34 +16,34 @@ class Neon extends StatefulWidget {
   final double fontSize;
   final NeonFont font;
   final bool flickeringText;
-  final List<int> flickeringLetters;
+  final List<int>? flickeringLetters;
   final double blurRadius;
   final bool glowing;
   final Duration glowingDuration;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
-  Neon(
-      {@required this.text,
-      @required this.color,
-      @required this.font,
-      this.fontSize = 30,
-      this.blurRadius = 30,
-      this.flickeringText = false,
-      this.flickeringLetters,
-      this.glowing = false,
-      this.glowingDuration = const Duration(milliseconds: 1500),
-      this.textStyle,
-      Key key})
-      : super(key: key);
+  Neon({
+    required this.text,
+    required this.color,
+    required this.font,
+    this.fontSize = 30,
+    this.blurRadius = 30,
+    this.flickeringText = false,
+    this.flickeringLetters,
+    this.glowing = false,
+    this.glowingDuration = const Duration(milliseconds: 1500),
+    this.textStyle,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _NeonState createState() => _NeonState();
 }
 
 class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
-  List<EnergyLevel> _enegryLevels;
-  CancelableOperation _cancelableWaitingForLowPower;
-  CancelableOperation _cancelableWaitingForHighPower;
+  late List<EnergyLevel?> _enegryLevels;
+  CancelableOperation? _cancelableWaitingForLowPower;
+  CancelableOperation? _cancelableWaitingForHighPower;
 
   String get text => widget.text;
 
@@ -55,7 +55,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
   bool get flickeringText => widget.flickeringText;
 
-  List<int> get flickeringLetters => widget.flickeringLetters;
+  List<int>? get flickeringLetters => widget.flickeringLetters;
 
   double get blurRadius => widget.blurRadius;
 
@@ -63,11 +63,11 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 
   Duration get glowingDuration => widget.glowingDuration;
 
-  TextStyle get textStyle => widget.textStyle;
+  TextStyle? get textStyle => widget.textStyle;
 
   @override
   void initState() {
-    _enegryLevels = List(text.length);
+    _enegryLevels = List.filled(text.length, null);
     // initial high level of the light
     _changeEnergyLevels(EnergyLevel.High);
     _checkIfFlickeringNeeded();
@@ -90,15 +90,16 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _preprocessText(),
-    ));
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _preprocessText(),
+      ),
+    );
   }
 
   void _checkIfFlickeringNeeded() {
     if (flickeringText ||
-        (flickeringLetters != null && flickeringLetters.length > 0)) {
+        (flickeringLetters != null && flickeringLetters!.length > 0)) {
       _cancelableWaitingForLowPower = CancelableOperation.fromFuture(
         _waitForLowPower(),
         onCancel: () => {debugPrint('onCancel')},
@@ -110,8 +111,6 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
   }
 
   List<NeonChar> _preprocessText() {
-    assert(text != null);
-
     List<NeonChar> list = [];
     for (var i = 0; i < text.length; i++) {
       list.add(NeonChar(text[i], color, font, fontSize, _enegryLevels[i],
@@ -142,7 +141,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
     });
   }
 
-  void _changeEnergyLevels(EnergyLevel level, [List<int> indexes]) {
+  void _changeEnergyLevels(EnergyLevel level, [List<int>? indexes]) {
     setState(() {
       if (indexes == null || indexes.length == 0) {
         for (var i = 0; i < text.length; i++) {
@@ -169,7 +168,7 @@ class _NeonState extends State<Neon> with SingleTickerProviderStateMixin {
 class GradientText extends StatelessWidget {
   GradientText(
     this.text, {
-    @required this.gradient,
+    required this.gradient,
   });
 
   final String text;
