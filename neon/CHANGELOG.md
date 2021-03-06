@@ -1,3 +1,8 @@
-## [0.0.1] - TODO: Add release date.
+## 0.1.0-nullsafety.1
 
-* TODO: Describe initial release.
+- Migrate to null safety.
+- Some minor chages
+
+## 0.0.1
+
+- Initial release.
