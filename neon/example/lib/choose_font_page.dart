@@ -90,7 +90,7 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                                     ],
                                   ),
                                 ),
-                                RaisedButton(
+                                ElevatedButton(
                                     child: Text(
                                         _neonFont.toString().split('.')[1]),
                                     onPressed: () {
@@ -104,8 +104,12 @@ class _ChooseFontPageState extends State<ChooseFontPage> {
                                         Navigator.of(context).pop();
                                       }, actionIcon: Icons.check);
                                     }),
-                                RaisedButton(
-                                    color: _color,
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              _color),
+                                    ),
                                     child: Text(_colorName),
                                     onPressed: () {
                                       UIHelper.generateModalBottomSheet<

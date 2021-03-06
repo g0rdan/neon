@@ -85,8 +85,6 @@ class _NeonCharState extends State<NeonChar> with TickerProviderStateMixin {
   }
 
   String _extractFont(NeonFont font) {
-    assert(font != null);
-
     return font.name;
   }
 
