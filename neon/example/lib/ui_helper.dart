@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UIHelper {
-  static void generateModalBottomSheet<T>(BuildContext context, List<T> options,
-      {@required Function(T) onChangedCallback,
-      @required Function onPressCallback,
-      double height = 180,
-      IconData actionIcon = Icons.close}) {
+  static void generateModalBottomSheet<T>(
+    BuildContext context,
+    List<T> options, {
+    required Function(T) onChangedCallback,
+    required VoidCallback onPressCallback,
+    double height = 180,
+    IconData actionIcon = Icons.close,
+  }) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {

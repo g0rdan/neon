@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WallBg extends StatelessWidget {
-  const WallBg({Key key}) : super(key: key);
+  const WallBg({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

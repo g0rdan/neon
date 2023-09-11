@@ -1,9 +1,10 @@
-import 'package:example/wall_bg.dart';
 import 'package:flutter/material.dart';
 import 'package:neon/neon.dart';
 
+import 'wall_bg.dart';
+
 class GlowingPage extends StatefulWidget {
-  GlowingPage({Key key}) : super(key: key);
+  GlowingPage({Key? key}) : super(key: key);
 
   @override
   _GlowingPageState createState() => _GlowingPageState();
@@ -38,10 +39,6 @@ class _GlowingPageState extends State<GlowingPage> {
                     )),
                     Expanded(
                         child: Container(
-                            // decoration: BoxDecoration(
-                            //     color: Colors.white30,
-                            //     borderRadius:
-                            //         BorderRadius.all(Radius.circular(10.0))),
                             width: MediaQuery.of(context).size.width * 0.8,
                             height: MediaQuery.of(context).size.height * 0.33,
                             padding: EdgeInsets.all(20.0),
@@ -74,7 +71,7 @@ class _GlowingPageState extends State<GlowingPage> {
                                       value: _auto,
                                       onChanged: (value) {
                                         setState(() {
-                                          _auto = value;
+                                          _auto = value ?? false;
                                         });
                                       },
                                     ),

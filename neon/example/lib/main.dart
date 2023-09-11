@@ -1,7 +1,8 @@
-import 'package:example/choose_font_page.dart';
-import 'package:example/flickering_page.dart';
-import 'package:example/glowing_page.dart';
 import 'package:flutter/material.dart';
+
+import 'choose_font_page.dart';
+import 'flickering_page.dart';
+import 'glowing_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
-        accentColor: Colors.yellow,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final String title;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title, Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

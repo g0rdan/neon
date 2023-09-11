@@ -1,9 +1,10 @@
-import 'package:example/wall_bg.dart';
 import 'package:flutter/material.dart';
 import 'package:neon/neon.dart';
 
+import 'wall_bg.dart';
+
 class FlickeringPage extends StatefulWidget {
-  FlickeringPage({Key key}) : super(key: key);
+  FlickeringPage({Key? key}) : super(key: key);
 
   @override
   _FlickeringPageState createState() => _FlickeringPageState();
@@ -19,12 +20,10 @@ class _FlickeringPageState extends State<FlickeringPage> {
     _textEditingController.addListener(() {
       var text = _textEditingController.text;
       text.split(',').forEach((char) {
-        var index = int.parse(char);
-        if (index != null) {
-          setState(() {
-            _indexes.add(index);
-          });
-        }
+        final index = int.parse(char);
+        setState(() {
+          _indexes.add(index);
+        });
       });
     });
     super.initState();
@@ -65,7 +64,7 @@ class _FlickeringPageState extends State<FlickeringPage> {
                                       value: _auto,
                                       onChanged: (value) {
                                         setState(() {
-                                          _auto = value;
+                                          _auto = value ?? false;
                                         });
                                       },
                                     ),
